@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="{% static 'css/semantic.css' %}">
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/semantic.js' %}"></script>
+    <script src="{% static 'js/exporting.js' %}"></script>
+    <script src="{% static 'js/highcharts-more.js' %}"></script>
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <meta charset="UTF-8">
+    <title>主页</title>
+  </head>
+  <body>
+    <div class="ui container ">
+      <div class="ui basic segment" style="border: 0;margin: 0;">
+        <div class="ui grid">
+          <div class="four wide column">
+            <img class="ui bottom aligned small image" src="../static/images/merlin-logo.jpg">
+          </div>
+          <div class="right floated right aligned one wide column">
+            <a class="item">中文</a>
+            <a class="item">English</a>
+          </div>
+        </div>
+      </div>
+      <div class="ui secondary pointing blue menu">
+        <a class="active item">
+          <span><i class="home icon"></i> 主页</span>
+        </a>
+        <a class="item">
+           公司介绍
+        </a>
+        <a class="item">
+           产品中心
+        </a>
+        <a class="item">
+           生产流程
+        </a>
+        <a class="item">
+           技术支持
+        </a>
+        <a class="item">
+           新闻资讯
+        </a>
+        <a class="item">
+           人力资源
+        </a>
+        <a class="item">
+           联系我们
+        </a>
+      </div>
+      <div class="ui divider"></div>
+      <div class="ui divider"></div>
+      <div class="ui divider"></div>
+    </div>
+
+
+
+    <script>
+        $('#category').click(function () {
+            $('#sidebar1').sidebar('toggle');
+        });
+    </script>
+
+
+  </body>
+</html>
