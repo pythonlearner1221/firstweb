@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import sqlite3 as lite
+from multiprocessing import Pool
 
 def get_gif(num):
     url = 'http://neihan1024.com/weibofun/weixin/article.php?fid={}&category=weibo_pics&source=1'.format(num)
+    print(num)
     try:
         res = requests.get(url)
         soup = BeautifulSoup(res.text,'lxml')
@@ -15,7 +17,7 @@ def get_gif(num):
                 gif_index = num
                 # print(title,img_url,created_time,gif_index)
                 save_to_sqlite(title,img_url,created_time,gif_index)
-                print(num+'saved')
+                print(str(num)+'saved')
             else:
                 pass
         else:
@@ -28,11 +30,10 @@ def save_to_sqlite(title,url,created_time,gif_index):
         cur = con.cursor()
         cur.execute("INSERT INTO merlin_gifpics (title,url,created_time,gif_index) Values (?,?,?,?)",(title,url,created_time,gif_index))
 
-def gif_page(num1,num2):
-    for i in range(num1, num2):
-        get_gif(i)
+if __name__ == '__main__':
+    pool = Pool()
+    pool.map(get_gif,range(174901,200000))
 
 
-gif_page(163968,200000)
 
 
