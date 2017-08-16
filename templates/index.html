@@ -13,101 +13,92 @@
   </head>
   <body>
     <div class="ui container ">
-      <div class="ui basic segment" style="border: 0;margin: 0;">
-        <div class="ui grid">
-          <div class="four wide column">
-            <img class="ui bottom aligned small image" src="../static/images/merlin-logo.jpg">
+
+      <div class="ui borderless fluid grey inverted menu" >
+        <div class="item"><img class="ui image" style="width:40px" src="{% static 'images/merlin-logo.jpg' %}"></div>
+        <div class="right fluid menu" style="width:90%">
+          <a class="active item" >主页</a>
+          <a class="item"  >主页2</a>
+          <a class="item"  >主页3</a>
+        </div>
+
+      </div>
+
+
+      <div class="ui divider"></div>
+      <div class="ui basic segment">
+        <div class="ui two column grid">
+
+          <div class="column" style="width:80%">
+            <div class="ui divided items">
+
+              {% for item in gifs %}
+                <div class="item">
+                  <div class="ui image" style="width:400px">
+                    <img src="{{ item.url }}">
+                  </div>
+                  <div class="content">
+                    <a class="header">{{ item.title }}</a>
+                    <div class="extra">
+                      <div class="ui label">{{ item.created_time }}</div>
+                      <div class="ui label"><i class="heart icon"></i> {{ item.likes }}</div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+              </div>
+
+
+            <div class="ui hidden divider"></div>
+            {% if is_paginated %}
+        <div class="ui pagination menu">
+          {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="item">上一页</a>
+          {% endif %}
+          {% if first %}
+            <a href="?page=1" class="item">1</a>
+          {% endif %}
+          {% if left %}
+            {% if left_has_more %}
+                <span class="item">...</span>
+            {% endif %}
+            {% for i in left %}
+                <a href="?page={{ i }}" class="item">{{ i }}</a>
+            {% endfor %}
+          {% endif %}
+          <a class="item" href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
+          {% if right %}
+            {% for i in right %}
+                <a href="?page={{ i }}" class="item">{{ i }}</a>
+            {% endfor %}
+            {% if right_has_more %}
+                <span class="item">...</span>
+            {% endif %}
+          {% endif %}
+          {% if last %}
+            <a href="?page={{ paginator.num_pages }}" class="item">{{ paginator.num_pages }}</a>
+          {% endif %}
+          {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="item">下一页</a>
+          {% endif %}
+        </div>
+        {% endif %}
           </div>
+
+          <div class="ui vertical divider"></div>
+
+          <div class="column" style="width:20%">
+            1
+            2
+
+          </div>
+
         </div>
       </div>
-      {% if is_paginated %}
-      <div class="ui pagination right menu">
-        {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="item">上一页</a>
-        {% endif %}
-        {% if first %}
-          <a href="?page=1" class="item">1</a>
-        {% endif %}
-        {% if left %}
-          {% if left_has_more %}
-              <span class="item">...</span>
-          {% endif %}
-          {% for i in left %}
-              <a href="?page={{ i }}" class="item">{{ i }}</a>
-          {% endfor %}
-        {% endif %}
-        <a class="item" href="?page={{ page_obj.number }}" style="color: #ff100e">{{ page_obj.number }}</a>
-        {% if right %}
-          {% for i in right %}
-              <a href="?page={{ i }}" class="item">{{ i }}</a>
-          {% endfor %}
-          {% if right_has_more %}
-              <span class="item">...</span>
-          {% endif %}
-        {% endif %}
-        {% if last %}
-          <a href="?page={{ paginator.num_pages }}" class="item">{{ paginator.num_pages }}</a>
-        {% endif %}
-        {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="item">下一页</a>
-        {% endif %}
-      </div>
-      {% endif %}
+
       <div class="ui divider"></div>
-      <div class="ui container segment">
-        {% for item in gifs %}
-        <div class="ui vertical segment">
-          <h1 class="ui center aligned header">{{ item.title }}</h1>
-          <img class="ui centered image" src="{{ item.url }}">
-          <h5 class="ui center aligned header">{{ item.created_time }}</h5>
-        </div>
-        {% endfor %}
-      </div>
-      <div class="ui divider"></div>
-      {% if is_paginated %}
-      <div class="ui pagination menu">
-        {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}" class="item">上一页</a>
-        {% endif %}
-        {% if first %}
-          <a href="?page=1" class="item">1</a>
-        {% endif %}
-        {% if left %}
-          {% if left_has_more %}
-              <span class="item">...</span>
-          {% endif %}
-          {% for i in left %}
-              <a href="?page={{ i }}" class="item">{{ i }}</a>
-          {% endfor %}
-        {% endif %}
-        <a class="item" href="?page={{ page_obj.number }}" style="color: red">{{ page_obj.number }}</a>
-        {% if right %}
-          {% for i in right %}
-              <a href="?page={{ i }}" class="item">{{ i }}</a>
-          {% endfor %}
-          {% if right_has_more %}
-              <span class="item">...</span>
-          {% endif %}
-        {% endif %}
-        {% if last %}
-          <a href="?page={{ paginator.num_pages }}" class="item">{{ paginator.num_pages }}</a>
-        {% endif %}
-        {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}" class="item">下一页</a>
-        {% endif %}
-      </div>
-      {% endif %}
-      <div class="ui divider"></div>
+
     </div>
-
-
-
-    <script>
-        $('#category').click(function () {
-            $('#sidebar1').sidebar('toggle');
-        });
-    </script>
-
 
   </body>
 </html>
