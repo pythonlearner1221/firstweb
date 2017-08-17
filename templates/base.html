@@ -1,0 +1,107 @@
+{% load static %}
+{% load blog_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="stylesheet" href="{% static 'css/semantic.css' %}">
+  <link rel="stylesheet" href="{% static 'css/pastie.css' %}">
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/semantic.js' %}"></script>
+  <script src="{% static 'js/exporting.js' %}"></script>
+  <script src="{% static 'js/highcharts-more.js' %}"></script>
+  <script src="{% static 'js/highcharts.js' %}"></script>
+  <meta charset="UTF-8">
+  <title>主页</title>
+</head>
+<body>
+  <div class="ui container ">
+
+      <div class="ui borderless fluid grey menu" >
+        <div class="item"><img class="ui image" style="width:40px" src="{% static 'images/merlin-logo.jpg' %}"></div>
+        <div class="right fluid menu" style="width:90%">
+          <a class="active item" href="{% url 'blog:index' %}">博客</a>
+          <a class="item"  href="{% url 'gifs:gifs' %}">GIFS</a>
+          <a class="item"  >主页3</a>
+        </div>
+
+      </div>
+
+
+      <div class="ui divider"></div>
+      <div class="ui basic segment">
+        <div class="ui two column grid">
+
+          <div class="column" style="width:80%">
+            {% block main %}
+            {% endblock main %}
+          </div>
+
+          <div class="ui vertical divider"></div>
+
+          <div class="column" style="width:20%">
+            <div class="ui divided items">
+              <div class="item">
+                <div class="content">
+                  <div class="header">最新文章</div>
+                  {% get_recent_posts as recent_post_list %}
+                  <div class="ui list">
+                    {% for post in recent_post_list %}
+                      <div class="item">
+                        <a href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+                      </div>
+                      {% empty %}
+                      暂无文章！
+                    {% endfor %}
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="item">
+                <div class="content">
+                  <div class="header">归档</div>
+                  {% archives as date_list %}
+                  <div class="ui list">
+                    {% for date in date_list %}
+                      <div class="item">
+                        <a href="{% url 'blog:archives' date.year date.month %}">{{ date.year }}年{{ date.month }}月</a>
+                      </div>
+                      {% empty %}
+                      暂无归档！
+                    {% endfor %}
+                  </div>
+
+                </div>
+
+              </div>
+              <div class="item">
+                <div class="content">
+                  <div class="header">分类</div>
+                  {% get_categories as category_list %}
+                  <div class="ui list">
+                    {% for category in category_list %}
+                      <div class="item">
+                        <a href="{% url 'blog:category' category.pk %}">{{ category }}</a>
+                      </div>
+                      {% empty %}
+                      暂无分类！
+                    {% endfor %}
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="ui divider"></div>
+
+    </div>
+
+  </body>
+
+</html>

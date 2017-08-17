@@ -10,7 +10,7 @@ from django.views.generic import ListView
 
 class IndexView(ListView):
     model = GifPics
-    template_name = 'index.html'
+    template_name = 'gifs/index.html'
     context_object_name = 'gifs'
     paginate_by = 10
     ordering=['-gif_index']

@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block main %}
+  <div class="ui segment">
+    <img class="ui centered image" src="{% static 'images/1.jpg' %} ">
+    <div class="content">
+      <a class="header">{{ post.title }}</a>
+      <div class="meta">
+        <span class="date">{{ post.created_time }}</span>
+      </div>
+      <div class="description">{{ post.body|safe }}</div>
+    </div>
+    <div class="extra content">
+      <a><i class="user icon"></i>{{ post.tags.name }}</a>
+    </div>
+    <div class="ui divider"></div>
+
+    <form class="ui form" action="{% url 'comments:post_comment' post.pk %}" method="post">
+      {% csrf_token %}
+      <div class="row">
+        <div class="two fields">
+          <div class="field">
+          <label for="{{ form.name.id_for_label }}">名字：</label>
+          {{ form.name }}
+          {{ form.name.errors }}
+        </div>
+          <div class="field">
+          <label for="{{ form.email.id_for_label }}">邮箱：</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        </div>
+        <div class="field">
+          <label for="{{ form.text.id_for_label }}">评论：</label>
+          {{ form.text }}
+          {{ form.text.errors }}
+          <button type="submit" class="ui button">发表</button>
+        </div>
+      </div>    <!-- row -->
+    </form>
+    <div class="ui comments">
+      <h3 class="ui dividing header">评论</h3>
+      {% for comment in comment_list %}
+      <div class="comment">
+        <div class="content">
+          <div class="author">{{ comment.name }}</div>
+          <div class="metadata">
+            <span class="date">{{ comment.created_time }}</span>
+          </div>
+          <div class="text">{{ comment.text }}</div>
+        </div>
+
+      </div>
+      {% empty %}
+        <div class="content">暂无评论</div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock main %}

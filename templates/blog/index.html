@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block main %}
+<div class="ui divided items">
+  {% for item in post_list %}
+  <div class="item">
+    <div class="image">
+      <img src="{% static 'images/1.jpg' %}">
+    </div>
+    <div class="content">
+      <a class="header" href="{{ item.get_absolute_url }}">{{ item.title }}</a>
+      <div class="meta">
+        <span class="datetime">{{ item.created_time }}</span>
+      </div>
+      <div class="description">
+        <p>{{ item.excerpt }}</p>
+      </div>
+      <div class="extra">{{ item.tags.name }}</div>
+      <div class="extra">{{ item.category.name }}</div>
+      <div class="extra">{{ item.author }}</div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="item">暂未发布文章</div>
+  {% endfor %}
+</div>
+{% endblock main %}
