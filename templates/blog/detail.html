@@ -4,8 +4,9 @@
 {% block main %}
   <div class="ui segment">
     <div class="content">
-      <h3 class="header">{{ post.title }}</h3>
+      <h3 class="header"><i class="book icon"></i>{{ post.title }}</h3>
       <div class="meta">
+        <a href="{% url 'blog:category' post.category.pk %}" class="ui blue label" style="padding:4px">{{ post.category.name }}</a>
         <span class="date">{{ post.created_time }}</span>
       </div>
       <div class="ui hidden divider"></div>

@@ -3,7 +3,7 @@
 
 
 {% block main %}
-<div class="ui divided items">
+<div class="ui very relaxed divided items">
   {% for post in post_list %}
   <div class="item">
     <a href="{{ post.get_absolute_url }}" class="image" style="overflow:hidden;vertical-align:middle;height:150px">
@@ -13,19 +13,19 @@
 {#     background-size: cover;width:150px;height:150px;margin-right:10px;">#}
 {#    </div>#}
     <div class="content">
-      <a class="header" href="{{ post.get_absolute_url }}">{{ post.title }}</a>
+      <a class="header" href="{{ post.get_absolute_url }}"><i class="book icon"></i>{{ post.title }}</a>
       <div class="meta">
-        <a href="{% url 'blog:category' post.category.pk %}" class="ui grey label" style="padding:4px">{{ post.category.name }}</a>
-        <span class="">{{ post.created_time }}</span>
-        <span class="">作者:{{ post.author }}</span>
+        <a href="{% url 'blog:category' post.category.pk %}" class="ui blue label" style="padding:4px">{{ post.category.name }}</a>
+        <span class="right floated"><i class="bullseye icon"></i>{{ post.created_time }}</span>
+        <span class=""><i class="write icon"></i>{{ post.author }}</span>
       </div>
 
       <div class="description">
         <p>{{ post.excerpt }}</p>
       </div>
       <div class="meta">
-        <span>标签:{{ post.tags.name }}</span>
-        <span>阅读:{{ post.views }}</span>
+        <span><i class="tags icon"></i>{{ post.tags.name }}</span>
+        <span class="right floated"><i class="unhide icon"></i>{{ post.views }}</span>
       </div>
     </div>
   </div>
