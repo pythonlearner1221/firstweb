@@ -4,14 +4,15 @@
 <html lang="en">
 <head>
   <link rel="stylesheet" href="{% static 'css/semantic.css' %}">
-  <link rel="stylesheet" href="{% static 'css/pastie.css' %}">
+  <link rel="stylesheet" href="{% static 'css/github.css' %}">
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/semantic.js' %}"></script>
   <script src="{% static 'js/exporting.js' %}"></script>
   <script src="{% static 'js/highcharts-more.js' %}"></script>
   <script src="{% static 'js/highcharts.js' %}"></script>
   <meta charset="UTF-8">
-  <title>主页</title>
+  {% block title %}
+  {% endblock title %}
 </head>
 <body>
   <div class="ui container ">

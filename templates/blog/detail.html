@@ -3,18 +3,39 @@
 {% load static %}
 {% block main %}
   <div class="ui segment">
-    <img class="ui centered image" src="{% static 'images/1.jpg' %} ">
     <div class="content">
-      <a class="header">{{ post.title }}</a>
+      <h3 class="header">{{ post.title }}</h3>
       <div class="meta">
         <span class="date">{{ post.created_time }}</span>
       </div>
+      <div class="ui hidden divider"></div>
       <div class="description">{{ post.body|safe }}</div>
     </div>
     <div class="extra content">
-      <a><i class="user icon"></i>{{ post.views }}</a>
+      <div class="ui hidden divider"></div>
+      <h3 class="header"><i class="user icon"></i>{{ post.views }}阅读</h3>
     </div>
-    <div class="ui divider"></div>
+
+    <div class="ui horizontal divider"><h3 class="header">评论区</h3></div>
+
+    <div class="ui comments">
+      {% for comment in comment_list %}
+      <div class="comment">
+        <div class="content">
+          <div class="author"><i class="red user icon"></i>{{ comment.name }}</div>
+          <div class="metadata">
+            <span class="date">{{ comment.created_time }}</span>
+          </div>
+          <div class="text">{{ comment.text|safe }}</div>
+        </div>
+
+      </div>
+      {% empty %}
+        <div class="content">暂无评论</div>
+      {% endfor %}
+    </div>
+
+    <div class="ui horizontal divider"><h3 class="header">发表评论</h3></div>
 
     <form class="ui form" action="{% url 'comments:post_comment' post.pk %}" method="post">
       {% csrf_token %}
@@ -39,22 +60,12 @@
         </div>
       </div>    <!-- row -->
     </form>
-    <div class="ui comments">
-      <h3 class="ui dividing header">评论</h3>
-      {% for comment in comment_list %}
-      <div class="comment">
-        <div class="content">
-          <div class="author">{{ comment.name }}</div>
-          <div class="metadata">
-            <span class="date">{{ comment.created_time }}</span>
-          </div>
-          <div class="text">{{ comment.text }}</div>
-        </div>
 
-      </div>
-      {% empty %}
-        <div class="content">暂无评论</div>
-      {% endfor %}
-    </div>
+
+
   </div>
 {% endblock main %}
+
+{% block title %}
+<title>欢迎来到toosiki的博客--{{ post.title }}</title>
+{% endblock title %}

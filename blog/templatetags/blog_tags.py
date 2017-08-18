@@ -13,4 +13,4 @@ def archives():
 
 @register.simple_tag
 def get_categories():
-    return Category.objects.all()
+    return Category.objects.all().order_by('name')

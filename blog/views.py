@@ -9,7 +9,8 @@ from django.views.generic import ListView,DetailView
 def index(request):
     post_list = Post.objects.all().order_by('-created_time')
     return render(request,'blog/index.html',context={
-        'post_list':post_list
+        'post_list':post_list,
+        'from':'首页'
     })
 
 def detail(request,pk):
@@ -30,12 +31,14 @@ def detail(request,pk):
 def archives(request,year,month):
     post_list = Post.objects.filter(created_time__year=year,
                                     created_time__month=month).order_by('-created_time')
-    return render(request,'blog/index.html',context={'post_list':post_list})
+    info = '{}年{}月--归档'.format(year,month)
+    return render(request,'blog/index.html',context={'post_list':post_list,'from':info})
 
 def category(request,pk):
     cate = get_object_or_404(Category,pk=pk)
     post_list = Post.objects.filter(category=cate).order_by('-created_time')
-    return render(request,'blog/index.html',context={'post_list':post_list})
+    info = '{}--分类'.format(cate)
+    return render(request,'blog/index.html',context={'post_list':post_list,'from':info})
 
 class IndexView(ListView):
     model = Post
@@ -79,8 +82,16 @@ class PostDetailView(DetailView):
         context = super(PostDetailView,self).get_context_data(**kwargs)
         form = CommentForm()
         comment_list =self.object.comment_set.all()
+        for comment in comment_list:
+            comment.text = markdown.markdown(comment.text,
+                                      extensions=[
+                                          'markdown.extensions.extra',
+                                          'markdown.extensions.codehilite',
+                                          'markdown.extensions.toc',
+                                      ])
+
         context.update({
             'form':form,
-            'comment_list':comment_list
+            'comment_list':comment_list,
         })
         return context

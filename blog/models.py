@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import markdown
 from django.utils.html import strip_tags
+import re
 
 # Create your models here.
 
@@ -28,6 +29,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag,blank=True)
     author = models.ForeignKey(User)
     views = models.PositiveIntegerField(default=0)
+    image = models.ImageField(blank=True)
 
     def __str__(self):
         return self.title
@@ -46,4 +48,12 @@ class Post(models.Model):
                 'markdown.extensions.codehilite',
             ])
             self.excerpt = strip_tags(md.convert(self.body))[:54]
+
+        if not self.image:
+            if re.findall(r'\!\[.*?\]\((.*?)\)',self.body,re.S):
+                body_pic = re.findall(r'\!\[.*?\]\((.*?)\)',self.body,re.S)[0]
+                self.image=body_pic
+            else:
+                self.image='../static/images/1.jpg'
+
         super(Post,self).save(*args,**kwargs)
