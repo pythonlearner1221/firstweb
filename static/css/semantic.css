@@ -27088,6 +27088,16 @@ a.ui.card:hover,
   color: rgba(0, 0, 0, 0.87);
 }
 
+.ui.segment > .content > .description p img {
+  text-align:center;
+  width: auto;
+  max-width: 100%;
+}
+
+.ui.segment > .content ul {
+  padding-left:15px
+}
+
 /*--------------
     Paragraph
 ---------------*/

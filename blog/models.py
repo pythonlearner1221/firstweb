@@ -57,3 +57,10 @@ class Post(models.Model):
                 self.image='../static/images/1.jpg'
 
         super(Post,self).save(*args,**kwargs)
+
+    def get_date(self):
+        year = self.created_time.year
+        month = self.created_time.month
+        day = self.created_time.day
+        date = '{}年{}月{}日'.format(year,month,day)
+        return date

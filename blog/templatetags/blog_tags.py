@@ -1,5 +1,7 @@
-from ..models import Post,Category
+from ..models import Post,Category,Tag
 from django import template
+from django.db.models.aggregates import Count
+
 
 register = template.Library()
 
@@ -13,4 +15,8 @@ def archives():
 
 @register.simple_tag
 def get_categories():
-    return Category.objects.all().order_by('name')
+    return Category.objects.annotate(num_posts=Count('post')).filter(num_posts__gt=0).order_by('name')
+
+@register.simple_tag
+def get_tags():
+    return Tag.objects.annotate(num_posts=Count('post')).order_by('name')
