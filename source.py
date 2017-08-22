@@ -4,6 +4,7 @@ import sqlite3 as lite
 from multiprocessing import Pool
 from datetime import datetime
 
+
 def get_gif(num):
     url = 'http://neihan1024.com/weibofun/weixin/article.php?fid={}&category=weibo_pics&source=1'.format(num)
     print(num)
@@ -41,9 +42,23 @@ def save_to_sqlite(title,url,created_time,gif_index,likes,types):
             insert = "INSERT INTO gifs_gifpics (title, url, created_time, gif_index,likes,types) VALUES (?,?,?,?,?,?)"
             cur.execute(insert,(title,url,created_time,gif_index,likes,types))
 
+def find_start():
+    with lite.connect('db.sqlite3') as con:
+        cur = con.cursor()
+        select = "select max(gif_index) as start from gifs_gifpics"
+        cur.execute(select)
+        start = cur.fetchone()[0]
+        return start
+
+
 if __name__ == '__main__':
     pool = Pool()
-    pool.map(get_gif,range(100,180000))
+    start = find_start()
+    if start < 179999:
+        end = 180000
+    else:
+        end = start+1000
+    pool.map(get_gif,range(start+1,end))
 
 
 

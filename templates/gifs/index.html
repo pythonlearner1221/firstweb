@@ -20,8 +20,6 @@
     </div>
   {% endfor %}
 </div>
-
-
 {% endblock main %}
 
 
@@ -30,21 +28,51 @@
 {% endblock title %}
 
 {% block tags %}
+
+
+
   <div class="item">
-  <div class="ui blue segment" style="width:100%">
-    <div class="content">
-      <h3 class="header">归档</h3>
-      {% archives as date_list %}
-      <div class="ui list">
-        {% for date in date_list %}
-          <div class="item">
-            <a href="{% url 'gifs:archives' date.year date.month %}"><i class="folder icon"></i>{{ date.year }}年{{ date.month }}月</a>
-          </div>
-          {% empty %}
-          暂无归档！
-        {% endfor %}
-      </div>
+    <div class="ui blue segment" style="width:100%">
+      <div class="content">
+        <h3 class="header">分类</h3>
+        <div class="ui list">
+            <div class="item">
+              <a href="{% url 'gifs:tags' 'gifs' %}"><i class="folder icon"></i>gifs</a>
+            </div>
+            <div class="item">
+              <a href="{% url 'gifs:tags' 'pics' %}"><i class="folder icon"></i>pics</a>
+            </div>
+        </div>
     </div>
   </div>
-</div>
+  </div>
+  <div class="item">
+    <div class="ui blue segment" style="width:100%">
+      <div class="content">
+        <h3 class="header">归档</h3>
+        {% archives as date_list %}
+        <div class="ui list">
+          {% for date in date_list %}
+            <div class="item">
+              <a href="{% url 'gifs:archives' date.year date.month %}"><i class="folder icon"></i>{{ date.year }}年{{ date.month }}月</a>
+            </div>
+            {% empty %}
+            暂无归档！
+          {% endfor %}
+        </div>
+    </div>
+  </div>
+  </div>
+
+
 {% endblock tags %}
+
+
+{% block search %}
+<div class="right item" style="padding:0">
+          <form role="search" method="get" class="form" action="{% url 'gifs:search' %}">
+              <div class="ui icon input"><input type="search" name="q" placeholder="关键词" required><i class="search link icon"></i></div>
+              <button class="ui button" type="submit"><i class="search icon"></i>搜索</button>
+          </form>
+        </div>
+{% endblock search %}

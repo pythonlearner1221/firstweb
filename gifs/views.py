@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import GifPics
 from django.views.generic import ListView
+from django.db.models import Q
 
 # Create your views here.
 
@@ -13,7 +14,7 @@ class IndexView(ListView):
     template_name = 'gifs/index.html'
     context_object_name = 'gifs'
     paginate_by = 10
-    ordering=['-gif_index']
+    ordering=['-created_time','-likes']
 
     def get_context_data(self, **kwargs):
         """
@@ -152,3 +153,22 @@ class ArchivesView(IndexView):
         year= self.kwargs.get('year')
         month=self.kwargs.get('month')
         return super(ArchivesView,self).get_queryset().filter(created_time__year=year,created_time__month=month)
+
+class TagView(IndexView):
+    def get_queryset(self):
+        types= self.kwargs.get('types')
+        if types == 'gifs':
+            pic_type= 'gif'
+        else :
+            pic_type= 'jpg'
+        return super(TagView,self).get_queryset().filter(types=pic_type)
+
+def search(request):
+    q=request.GET.get('q')
+    error_msg=''
+    if not q:
+        error_msg='请输入关键词'
+        return render(request,'gifs/index.html',{'error_msg':error_msg})
+
+    pic_list = GifPics.objects.filter(Q(title__icontains=q)).order_by('-created_time')
+    return render(request,'gifs/index.html',{'error_msg':error_msg,'gifs':pic_list})
