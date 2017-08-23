@@ -1,6 +1,5 @@
-{% extends 'base.html' %}
-{% load static %}
-{% load blog_tags %}
+{% extends 'blog/blogbase.html' %}
+
 
 {% block main %}
   <div class="ui blue segment">
@@ -19,7 +18,7 @@
       <div class="description" style="">{{ post.body|safe }}</div>
     </div>
 
-    <h3 class="ui horizontal divider header"><i class="comments icon"></i>评论区</h3>
+    <h3 class="ui horizontal divider header" id="comment-area"><i class="comments icon"></i>评论区</h3>
 
     <div class="ui comments" style="max-width:100%">
       {% for comment in comment_list %}
@@ -83,93 +82,5 @@
 
 
 
-{% block tags %}
-<div class="item">
-  <div class="ui blue segment" style="width:100%">
-  <div class="content">
-    <h3 class="header">最新文章</h3>
-    {% get_recent_posts as recent_post_list %}
-    <div class="ui list">
-      {% for post in recent_post_list %}
-      <div class="item">
-        <a href="{{ post.get_absolute_url }}"><i class="file icon"></i>{{ post.title }}</a>
-      </div>
-      {% empty %}
-      暂无文章！
-      {% endfor %}
-    </div>
-  </div>
-</div>
-</div>
 
-<div class="item">
-  <div class="ui blue segment" style="width:100%">
-    <div class="content">
-      <h3 class="header">分类</h3>
-      {% get_categories as category_list %}
-      <div class="ui list">
-        {% for category in category_list %}
-          <div class="item">
-            <a href="{% url 'blog:category' category.pk %}"><i class="folder icon"></i>{{ category }}
-              <span class="content">({{ category.num_posts }})</span>
-            </a>
-          </div>
-          {% empty %}
-          暂无分类！
-        {% endfor %}
-    </div>
-  </div>
-
-
-  </div>
-
-</div>
-
-<div class="item">
-  <div class="ui blue segment" style="width:100%">
-    <div class="content">
-      <h3 class="header">归档</h3>
-      {% archives as date_list %}
-      <div class="ui list">
-        {% for date in date_list %}
-          <div class="item">
-            <a href="{% url 'blog:archives' date.year date.month %}"><i class="folder icon"></i>{{ date.year }}年{{ date.month }}月</a>
-          </div>
-          {% empty %}
-          暂无归档！
-        {% endfor %}
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="item">
-  <div class="ui blue segment" style="width:100%">
-    <div class="content">
-      <h3 class="header">标签</h3>
-      {% get_tags as tag_list %}
-        {% for tag in tag_list %}
-          <span class="item">
-            <a class="ui basic label" href="{% url 'blog:tag' tag.pk %}" style="margin:2px"><i class="tag icon"></i>{{ tag.name }}
-              <span class="content">({{ tag.num_posts }})</span>
-            </a>
-          </span>
-        {% empty %}
-        暂无标签！
-        {% endfor %}
-    </div>
-  </div>
-
-
-  </div>
-{% endblock tags %}
-
-{% block search %}
-<div class="right item" style="padding:0">
-          <form role="search" method="get" class="form" action="{% url 'blog:search' %}">
-              <div class="ui icon input"><input type="search" name="q" placeholder="关键词" required><i class="search link icon"></i></div>
-              <button class="ui button" type="submit"><i class="search icon"></i>搜索</button>
-          </form>
-        </div>
-{% endblock search %}
 

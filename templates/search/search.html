@@ -1,0 +1,50 @@
+{% extends 'blog/blogbase.html' %}
+{% load highlight %}
+
+{% block main %}
+  {% if query %}
+    <div class="ui very relaxed divided items">
+    {% for result in page.object_list %}
+      <div class="item">
+        <a href="{{ result.object.get_absolute_url }}" class="image" style="overflow:hidden;vertical-align:middle;height:150px">
+          <img class="image" src="{{ result.object.image }}">
+        </a>
+    {#    <div style="background-image:url({{ post.image }});background-repeat: no-repeat;background-position:center center;#}
+    {#     background-size: cover;width:150px;height:150px;margin-right:10px;">#}
+    {#    </div>#}
+        <div class="content">
+          <a class="header" href="{{ result.object.get_absolute_url }}"><i class="book icon"></i>{% highlight result.object.title with query %}</a>
+          <div class="meta">
+            <span class=""><i class="write icon"></i>{{ result.object.author }}</span>
+            <span class=""><i class="bullseye icon"></i>{{ result.object.get_date }}</span>
+            <span class=""><i class="unhide icon"></i>{{ result.object.views }}次阅读</span>
+            <span class=""><i class="comment icon"></i>{{ result.object.comment_set.count }}次评论</span>
+          </div>
+
+          <div class="description">
+            <p>{% highlight result.object.body with query %}</p>
+          </div>
+          <div class="meta">
+            <span><a href="{% url 'blog:category' result.object.category.pk %}" class="ui blue label" style="padding:4px">{{ result.object.category.name }}</a></span>
+            {% for tag in result.object.tags.all %}
+            <span><a href="{% url 'blog:tag' tag.pk %}"><i class="tags icon"></i>{{ tag.name }}</a></span>
+            {% endfor %}
+          </div>
+          <div class="content"><a href="{{ result.object.get_absolute_url }}"><h3 class="header">继续阅读<i class="large long arrow right icon"></i></h3></a></div>
+        </div>
+      </div>
+    {% empty %}
+      <div class="item">没有搜索到你想要的结果</div>
+    {% endfor %}
+    {% if page.has_previous or page.has_next %}
+      <div class="ui pagination menu">
+        {% if page.has_previous %}<a class="item" href="?q={{ query }}&amp;page={{ page.previous_page_number }}">上一页</a>{% endif %}
+        {% if page.has_next %}<a class="item" href="?q={{ query }}&amp;page={{ page.next_page_number }}">下一页</a>{% endif %}
+      </div>
+    {% endif %}
+    </div>
+  {% else %}
+    <div class="item">请输入搜索关键词</div>
+  {% endif %}
+
+{% endblock main %}
